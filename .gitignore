@@ -54,3 +54,6 @@ docs/_build/
 
 db.sqlite3
 *.swp
+*~
+
+joinrpg.conf

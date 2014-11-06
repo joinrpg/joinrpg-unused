@@ -1,0 +1,8 @@
+[DATABASE]
+ENGINE = django.db.backends.mysql
+HOST = mysql.mysite.com
+NAME = my_mysql_db_name
+USER = my_mysql_user
+PASSWORD = my_mysql_password
+CHARSET = utf8
+
