@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django_extensions.db.fields import CreationDateTimeField
-from django_extensions.db.fields import ModificationDateTimeField
 from jrlib.models import JRModel, VKField
 import jsonfield
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
+from django_extensions.db.fields import UUIDField
 
 # UserManager
 
 class UserManager(BaseUserManager):
-    def __create_user(self, email, is_su=False, password=None):
-        if not email:
-            raise ValueError('Users must have an email address')
+    def __create_user(self, username, is_su=False, password=None):
+        if not username:
+            raise ValueError('Users must have a username')
         
-        user = self.model(email=email)
+        user = self.model(username=username)
         user.is_superuser = is_su
         user.save()
         if password:
@@ -23,13 +22,13 @@ class UserManager(BaseUserManager):
             auth = Authentication.objects.create(user=user, system=auth_sys, data = {'password': password})
             auth.save()
         
-    def create_user(self, email, password=None):
-        self.__create_user(email, False, password)
+    def create_user(self, username, password=None):
+        self.__create_user(username, False, password)
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, username, password):
         if not password:
             raise ValueError('Superuser MUST have a password')
-        self.__create_user(email, True, password)
+        self.__create_user(username, True, password)
         
 # Адрес
 class AddressCountry(JRModel):
@@ -59,24 +58,56 @@ class AddressCity(JRModel):
         return self.name
 
 # Пользователь
-class User(JRModel):
-    city = models.ForeignKey(AddressCity, blank=True, null=True)
+class User(AbstractBaseUser):
+    guid = UUIDField(db_index=True)
+    city = models.ForeignKey(AddressCity, null=True)
 
-    first_name = models.CharField(max_length = 255)
-    second_name = models.CharField(max_length = 255)
-    nick = models.CharField(max_length = 255)
+    first_name = models.CharField(null=True, max_length = 255)
+    second_name = models.CharField(null=True, max_length = 255)
+    patronymic = models.CharField(null=True, max_length = 255)
+    nick = models.CharField(null=True, max_length = 255)
     
-    email = models.EmailField(unique=True)
+    email = models.EmailField(null=True)
+    username = models.CharField(unique=True, max_length = 42)
 
-    cr_date = CreationDateTimeField()
-    up_date = ModificationDateTimeField()
-    active = models.BooleanField(default=True)
+    cr_date = models.DateTimeField(auto_now_add=True)
+    up_date = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
+    @property
+    def is_staff(self):
+        return self.is_superuser
+
+    @property
+    def is_admin(self):
+        return self.is_superuser
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
+
+    def get_short_name(self):
+        return self.username
+        
+#    last_login = models.DateTimeField(auto_now_add=True, blank=True)
+
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    def check_password(self, raw_password):
+        try:
+            auth = Authentication.objects.get(user=self, system='local')
+        except Authentication.DoesNotExist:
+            auth = None
+
+        if auth is None:
+            return False
+        return auth.data['password'] == raw_password
 
 class AuthenticationSystem(JRModel):
     name = models.CharField(primary_key = True, max_length = 255)
@@ -92,8 +123,9 @@ class Authentication(JRModel):
 
 class AuthoredModel(JRModel):
     author = models.ForeignKey(User, related_name='+')
-    cr_date = CreationDateTimeField()
-    up_date = ModificationDateTimeField()
+    cr_date = models.DateTimeField(auto_now_add=True)
+    up_date = models.DateTimeField(auto_now=True)
+
 
     class Meta:
         abstract = True
