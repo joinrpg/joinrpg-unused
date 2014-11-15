@@ -98,11 +98,27 @@ class AuthoredModel(JRModel):
     class Meta:
         abstract = True
 
+class ProjectStatus(JRModel):
+    name = models.CharField(max_length=255)
+    
+    is_active = models.BooleanField(default=True, help_text='Может ли мастер менять что-то в проекте или он уже ушел в архив')
+    is_visible = models.BooleanField(default=False, help_text='Может ли игрок увидеть проект во всяких «куда заявиться»') 
+    can_add_new_claim = models.BooleanField(default=False, help_text='Могут ли игроки добавлять новые заявки или они закрыты (уже/еще)') 
+    can_player_change_character = models.BooleanField(default=False, help_text='Могут ли игроки что-то менять в персонаже или мастера заморозили заявки к выезду на полигон')
+    
+    class Meta:
+        verbose_name = "Статус проектов"
+        verbose_name_plural = "Статусы проектов"
+
 # проект — собсно, игра
 class Project(AuthoredModel):
     name = models.CharField(max_length = 1023)
     external_uri = models.URLField(max_length = 255)
     description = models.TextField()
+    kogdaigra_link = KogdaIgraField()
+    game_begin_date = models.DateField()
+    game_end_date = models.DateField()
+    status = ProjectStatus()
     
     #project social networks
     vk_club = VKField()
