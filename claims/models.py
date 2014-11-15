@@ -168,6 +168,12 @@ class Project(AuthoredModel):
 class ProjectAcl(JRModel):
     project = models.ForeignKey(Project)
     user = models.ForeignKey(User)
+        
+    can_change_player_fields = models.BooleanField(default=True)
+    can_write_comments = models.BooleanField(default=True)
+    can_accept_money = models.BooleanField(default=True)
+    can_setup_fields = models.BooleanField(default=False)
+    can_grant_acl = models.BooleanField(default=True)
 
 # Группы полей заявок в проекте
 class ProjectFieldGroup(JRModel):
