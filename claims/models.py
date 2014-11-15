@@ -7,14 +7,20 @@ from jrlib.models import JRModel
 # Адрес
 class AddressCountry(JRModel):
     name = models.CharField(max_length = 255)
+    def __str__(self):
+        return self.name
 
 class AddressRegion(JRModel):
     country = models.ForeignKey(AddressCountry)
     name = models.CharField(max_length = 255)
+    def __str__(self):
+        return self.name
 
 class AddressCity(JRModel):
     region = models.ForeignKey(AddressRegion)
     name = models.CharField(max_length = 255)
+    def __str__(self):
+        return self.name
 
 # Пользователь
 class User(JRModel):
