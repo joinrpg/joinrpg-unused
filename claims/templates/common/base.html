@@ -1,0 +1,18 @@
+{% extends "common/bootstrap.html" %}
+
+{% load bootstrap3 %}
+
+{% block header %}
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <a class="navbar-brand" href="{% url 'index' %}">JoinRpg.Ru</a>
+        <ul class="nav navbar-nav"> 
+            <li>
+                <a href="{%url 'index' %}">Стартовая страница</a>
+            </li>
+            <li>
+                <a href="{%url 'about' %}">О нас</a>
+            </li>
+        </ul>
+    </nav>  
+{% endblock %}
+{% block footer %} Футер {% endblock %}

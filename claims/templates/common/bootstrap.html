@@ -1,0 +1,26 @@
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>{% block pagetitle %}{% endblock %}</title>
+    
+    <link href="//yastatic.net/bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet">
+    <link href="//yastatic.net/bootstrap/3.1.1/css/bootstrap-theme.css" rel="stylesheet">
+  </head>
+  <body>
+    <header>{% block header %} Here goes page heaader {% endblock %}</header>
+    <div class="container theme-showcase" role="main">
+    {% block content %} Здесь необходимо добавить контент (заполните block content!) {% endblock %}
+    </div>
+    <footer>
+    {% block footer %} Футер {% endblock %}
+    </footer>
+    
+    <script src="//yastatic.net/jquery/2.1.1/jquery.js"></script>
+    <script src="//yastatic.net/bootstrap/3.1.1/js/bootstrap.js"></script>
+  </body>
+</html>
