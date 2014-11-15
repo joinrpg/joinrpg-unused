@@ -2,19 +2,22 @@ joinrpg
 =======
 
 JoinRPG.ru Python/Django sources
+
 *_This file is in UTF-8 Russian_*
 
 (_Владимир "Даир" Лебедев-Шмидтгоф, 5 Ноября 2014_)
 
 # Как запустить проект
 
-* Установить Python версии 3.4
-* Установить Django версии 1.7.1
-  * В консольке: `pip install Django=1.7.1`
-* Установить django-extensions (сейчас текущие 1.4.5, но я пока на это нигде не закладывался):
-  * В консольке: `pip install django-extensions=1.4.5`
+* Установить Python 3
+| * Для Windows https://www.python.org/downloads/
+| * При установке python выбрать «добавить python в path»
+* Установить Django
+  * В консольке: `pip install Django`
+* Установить django-extensions
+  * В консольке: `pip install django-extensions`
 * После этого надо сгенерировать Базу Данных (один раз):
-  * `python manage.py migrate`, от этого появится db.sqlite3 в корне проекта. Его *НЕ НАДО* добавлять в репозиторий (оно в `.gitignore` уже прописано)
+  * Запустить в каталоге, куда скачан репозиторий `python manage.py migrate`, от этого появится db.sqlite3 в корне проекта. Его *НЕ НАДО* добавлять в репозиторий (оно в `.gitignore` уже прописано)
 * Теперь можно запускать проект:
   * `python manage.py runserver`
 * После чего можно заходить (пока, правда, некуда) из броузера:
