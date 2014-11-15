@@ -1,4 +1,4 @@
-Django==1.7.1
-django-bootstrap3==4.11.0
-django-extensions==1.4.6
-django-jsonfield==0.9.13
+Django>=1.7.1
+django-bootstrap3>=4.11.0
+django-extensions>=1.4.6
+django-jsonfield>=0.9.13
