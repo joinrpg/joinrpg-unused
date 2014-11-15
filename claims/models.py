@@ -109,6 +109,8 @@ class ProjectStatus(JRModel):
     class Meta:
         verbose_name = "Статус проектов"
         verbose_name_plural = "Статусы проектов"
+    def __str__(self):
+        return self.name
 
 # проект — собсно, игра
 class Project(AuthoredModel):
