@@ -109,6 +109,7 @@ class Project(AuthoredModel):
 # Права доступа к проекту
 class ProjectAcl(JRModel):
     project = models.ForeignKey(Project)
+    user = models.ForeignKey(User)
 
 # Группы полей заявок в проекте
 class ProjectFieldGroup(JRModel):
