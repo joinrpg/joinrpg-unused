@@ -7,18 +7,27 @@ from jrlib.models import JRModel
 # Адрес
 class AddressCountry(JRModel):
     name = models.CharField(max_length = 255)
+    class Meta:
+        verbose_name = "Страна"
+        verbose_name_plural = "Страны"
     def __str__(self):
         return self.name
 
 class AddressRegion(JRModel):
     country = models.ForeignKey(AddressCountry)
     name = models.CharField(max_length = 255)
+    class Meta:
+        verbose_name = "Регион"
+        verbose_name_plural = "Регионы"
     def __str__(self):
         return self.name
 
 class AddressCity(JRModel):
     region = models.ForeignKey(AddressRegion)
     name = models.CharField(max_length = 255)
+    class Meta:
+        verbose_name = "Город"
+        verbose_name_plural = "Города"
     def __str__(self):
         return self.name
 
