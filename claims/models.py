@@ -3,7 +3,34 @@ from django.db import models
 from django_extensions.db.fields import CreationDateTimeField
 from django_extensions.db.fields import ModificationDateTimeField
 from jrlib.models import JRModel
+import jsonfield
+from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 
+# UserManager
+
+class UserManager(BaseUserManager):
+    def __create_user(self, email, is_su=False, password=None):
+        if not email:
+            raise ValueError('Users must have an email address')
+        
+        user = self.model(email=email)
+        user.is_superuser = is_su
+        user.save()
+        if password:
+            auth_sys = AuthenticationSystem.objects.get(name='local')
+            if not auth_sys:
+                raise ValueError('There are no \'local\' Authentication system. Please create one first')
+            auth = Authentication.objects.create(user=user, system=auth_sys, data = {'password': password})
+            auth.save()
+        
+    def create_user(self, email, password=None):
+        self.__create_user(email, False, password)
+
+    def create_superuser(self, email, password):
+        if not password:
+            raise ValueError('Superuser MUST have a password')
+        self.__create_user(email, True, password)
+        
 # Адрес
 class AddressCountry(JRModel):
     name = models.CharField(max_length = 255)
@@ -33,12 +60,32 @@ class AddressCity(JRModel):
 
 # Пользователь
 class User(JRModel):
-    city = models.ForeignKey(AddressCity)
+    city = models.ForeignKey(AddressCity, blank=True, null=True)
 
     first_name = models.CharField(max_length = 255)
-    second_name =  models.CharField(max_length = 255)
+    second_name = models.CharField(max_length = 255)
     nick = models.CharField(max_length = 255)
-    email = models.EmailField()
+    
+    email = models.EmailField(unique=True)
+
+    cr_date = CreationDateTimeField()
+    up_date = ModificationDateTimeField()
+    active = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+
+class AuthenticationSystem(JRModel):
+    name = models.CharField(primary_key = True, max_length = 255)
+    data = jsonfield.JSONField()
+
+class Authentication(JRModel):
+    user = models.ForeignKey(User, related_name='+')
+    system = models.ForeignKey(AuthenticationSystem)
+    data = jsonfield.JSONField()
 
 # Базовый класс (без создания таблицы) для любых "авторских" 
 # таблиц, т.е., у записей которых есть автор из Users
@@ -50,7 +97,6 @@ class AuthoredModel(JRModel):
 
     class Meta:
         abstract = True
-
 
 # проект — собсно, игра
 class Project(AuthoredModel):
