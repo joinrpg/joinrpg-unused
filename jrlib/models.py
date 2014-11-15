@@ -10,3 +10,6 @@ class JRModel(models.Model):
 
     class Meta:
         abstract = True
+       
+class VKField(models.URLField):
+    pass

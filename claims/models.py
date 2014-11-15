@@ -2,7 +2,7 @@
 from django.db import models
 from django_extensions.db.fields import CreationDateTimeField
 from django_extensions.db.fields import ModificationDateTimeField
-from jrlib.models import JRModel
+from jrlib.models import JRModel, VKField
 import jsonfield
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 
@@ -101,6 +101,9 @@ class AuthoredModel(JRModel):
 # проект — собсно, игра
 class Project(AuthoredModel):
     name = models.CharField(max_length = 1023)
+    external_uri = models.URLField(max_length = 255)
+    description = models.TextField()
+    vk_club = VKField()
     # TODO
 
 # Права доступа к проекту
