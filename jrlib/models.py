@@ -13,3 +13,15 @@ class JRModel(models.Model):
        
 class VKField(models.URLField):
     pass
+
+class LiveJournalField(models.URLField):
+    pass
+    
+class FacebookField(models.URLField):
+    pass
+    
+class TwitterField(models.URLField):
+    pass
+
+class SkypeField(models.TextField):
+    pass
