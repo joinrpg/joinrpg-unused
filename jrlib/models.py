@@ -25,3 +25,6 @@ class TwitterField(models.URLField):
 
 class SkypeField(models.TextField):
     pass
+
+class KogdaIgraField(models.URLField):
+    pass
