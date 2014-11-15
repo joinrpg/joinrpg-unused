@@ -18,6 +18,7 @@ JoinRPG.ru Python/Django sources
   * В консольке: `pip install django-extensions`
 * После этого надо сгенерировать Базу Данных (один раз):
   * Запустить в каталоге, куда скачан репозиторий `python manage.py migrate`, от этого появится db.sqlite3 в корне проекта. Его *НЕ НАДО* добавлять в репозиторий (оно в `.gitignore` уже прописано)
+  * Сгенерировать суперпользователя: `python manage.py createsuperuser`
 * Теперь можно запускать проект:
   * `python manage.py runserver`
 * После чего можно заходить (пока, правда, некуда) из броузера:
