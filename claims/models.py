@@ -139,6 +139,7 @@ class ProjectStatus(JRModel):
     is_visible = models.BooleanField(default=False, help_text='Может ли игрок увидеть проект во всяких «куда заявиться»') 
     can_add_new_claim = models.BooleanField(default=False, help_text='Могут ли игроки добавлять новые заявки или они закрыты (уже/еще)') 
     can_player_change_character = models.BooleanField(default=False, help_text='Могут ли игроки что-то менять в персонаже или мастера заморозили заявки к выезду на полигон')
+    is_default_status = models.BooleanField('Статус для вновь созданных игр', default=False, help_text='Да, если этот статус выставляется проекту при создании')
     
     class Meta:
         verbose_name = "Статус проектов"
