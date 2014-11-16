@@ -10,10 +10,10 @@ JoinRPG.ru Python/Django sources
 # Как запустить проект
 
 * Установить Python 3
-| * Для Windows https://www.python.org/downloads/
-| * При установке python выбрать «добавить python в path»
+  * Для Windows https://www.python.org/downloads/
+  * При установке python выбрать «добавить python в path»
 * Установить Git. 
-| * Если вы не умеете в Git и хотите быстрый вариант для Windows, вот он https://windows.github.com/
+  * Если вы не умеете в Git и хотите быстрый вариант для Windows, вот он https://windows.github.com/
 * Склонировать репозиторий в какой-нибудь каталог
 * Открыть консоль в этом каталоге
 * Установить Django и все необходимые пререквизиты
