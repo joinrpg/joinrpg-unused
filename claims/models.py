@@ -148,19 +148,19 @@ class ProjectStatus(JRModel):
 
 # проект — собсно, игра
 class Project(AuthoredModel):
-    name = models.CharField(max_length = 1023)
-    external_uri = models.URLField(max_length = 255)
-    description = models.TextField()
-    kogdaigra_link = KogdaIgraField()
-    game_begin_date = models.DateField()
-    game_end_date = models.DateField()
-    status = ProjectStatus()
+    name = models.CharField('Название игры (проекта)', max_length = 1023)
+    external_uri = models.URLField('Сссылка на сайт игры', max_length = 255, null=True, blank=True)
+    description = models.TextField('Описание игры (для игроков)', null=True, blank=True)
+    kogdaigra_link = KogdaIgraField('Ссылка на профиль на КогдаИгре', null=True, blank=True)
+    game_begin_date = models.DateField('Дата начала игры')
+    game_end_date = models.DateField('Дата конца игры')
+    status = models.ForeignKey(ProjectStatus, verbose_name='Статус проекта')
     
     #project social networks
-    vk_club = VKField()
-    lj_comm = LiveJournalField()
-    facebook = FacebookField()
-    twitter = TwitterField()
+    vk_club = VKField(null=True)
+    lj_comm = LiveJournalField(null=True, blank=True)
+    facebook = FacebookField(null=True, blank=True)
+    twitter = TwitterField(null=True, blank=True)
     
     # TODO
 

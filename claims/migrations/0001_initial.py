@@ -2,11 +2,11 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.utils.timezone
 import jsonfield.fields
+import django_extensions.db.fields
 from django.conf import settings
 import jrlib.models
-import django_extensions.db.fields
-import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -18,16 +18,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('password', models.CharField(verbose_name='password', max_length=128)),
                 ('last_login', models.DateTimeField(verbose_name='last login', default=django.utils.timezone.now)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('first_name', models.CharField(null=True, max_length=255)),
                 ('second_name', models.CharField(null=True, max_length=255)),
                 ('patronymic', models.CharField(null=True, max_length=255)),
                 ('nick', models.CharField(null=True, max_length=255)),
                 ('email', models.EmailField(null=True, max_length=75)),
-                ('username', models.CharField(max_length=42, unique=True)),
+                ('username', models.CharField(unique=True, max_length=42)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
                 ('is_active', models.BooleanField(default=True)),
@@ -41,48 +41,48 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AddressCity',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('name', models.CharField(max_length=255)),
             ],
             options={
-                'verbose_name_plural': 'Города',
                 'verbose_name': 'Город',
+                'verbose_name_plural': 'Города',
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='AddressCountry',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('name', models.CharField(max_length=255)),
             ],
             options={
-                'verbose_name_plural': 'Страны',
                 'verbose_name': 'Страна',
+                'verbose_name_plural': 'Страны',
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='AddressRegion',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('name', models.CharField(max_length=255)),
                 ('country', models.ForeignKey(to='claims.AddressCountry')),
             ],
             options={
-                'verbose_name_plural': 'Регионы',
                 'verbose_name': 'Регион',
+                'verbose_name_plural': 'Регионы',
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Authentication',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('data', jsonfield.fields.JSONField(default=dict)),
             ],
             options={
@@ -93,8 +93,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AuthenticationSystem',
             fields=[
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
-                ('name', models.CharField(max_length=255, primary_key=True, serialize=False)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
+                ('name', models.CharField(serialize=False, primary_key=True, max_length=255)),
                 ('data', jsonfield.fields.JSONField(default=dict)),
             ],
             options={
@@ -105,11 +105,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Claim',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+')),
+                ('author', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -119,11 +119,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ClaimComment',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+')),
+                ('author', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
                 ('claim', models.ForeignKey(to='claims.Claim')),
             ],
             options={
@@ -134,11 +134,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ClaimHistory',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+')),
+                ('author', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
                 ('claim', models.ForeignKey(to='claims.Claim')),
             ],
             options={
@@ -149,12 +149,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Object',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
                 ('name', models.CharField(max_length=1023)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+')),
+                ('author', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -164,11 +164,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ObjectHistory',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+')),
+                ('author', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
                 ('obj', models.ForeignKey(to='claims.Object')),
             ],
             options={
@@ -179,21 +179,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Project',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(max_length=1023)),
-                ('external_uri', models.URLField(max_length=255)),
-                ('description', models.TextField()),
-                ('kogdaigra_link', jrlib.models.KogdaIgraField()),
-                ('game_begin_date', models.DateField()),
-                ('game_end_date', models.DateField()),
-                ('vk_club', jrlib.models.VKField()),
-                ('lj_comm', jrlib.models.LiveJournalField()),
-                ('facebook', jrlib.models.FacebookField()),
-                ('twitter', jrlib.models.TwitterField()),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+')),
+                ('name', models.CharField(verbose_name='Название игры (проекта)', max_length=1023)),
+                ('external_uri', models.URLField(blank=True, null=True, verbose_name='Сссылка на сайт игры', max_length=255)),
+                ('description', models.TextField(blank=True, null=True, verbose_name='Описание игры (для игроков)')),
+                ('kogdaigra_link', jrlib.models.KogdaIgraField(blank=True, null=True, verbose_name='Ссылка на профиль на КогдаИгре')),
+                ('game_begin_date', models.DateField(verbose_name='Дата начала игры')),
+                ('game_end_date', models.DateField(verbose_name='Дата конца игры')),
+                ('vk_club', jrlib.models.VKField(null=True)),
+                ('lj_comm', jrlib.models.LiveJournalField(blank=True, null=True)),
+                ('facebook', jrlib.models.FacebookField(blank=True, null=True)),
+                ('twitter', jrlib.models.TwitterField(blank=True, null=True)),
+                ('author', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -203,8 +203,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectAcl',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
+                ('can_change_player_fields', models.BooleanField(default=True)),
+                ('can_write_comments', models.BooleanField(default=True)),
+                ('can_accept_money', models.BooleanField(default=True)),
+                ('can_setup_fields', models.BooleanField(default=False)),
+                ('can_grant_acl', models.BooleanField(default=True)),
                 ('project', models.ForeignKey(to='claims.Project')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
@@ -216,8 +221,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectField',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('project', models.ForeignKey(to='claims.Project')),
             ],
             options={
@@ -228,8 +233,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectFieldGroup',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('project', models.ForeignKey(to='claims.Project')),
             ],
             options={
@@ -240,8 +245,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectFieldValue',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('project_field', models.ForeignKey(to='claims.ProjectField')),
             ],
             options={
@@ -252,8 +257,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectStatus',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('name', models.CharField(max_length=255)),
                 ('is_active', models.BooleanField(default=True, help_text='Может ли мастер менять что-то в проекте или он уже ушел в архив')),
                 ('is_visible', models.BooleanField(default=False, help_text='Может ли игрок увидеть проект во всяких «куда заявиться»')),
@@ -261,19 +266,19 @@ class Migration(migrations.Migration):
                 ('can_player_change_character', models.BooleanField(default=False, help_text='Могут ли игроки что-то менять в персонаже или мастера заморозили заявки к выезду на полигон')),
             ],
             options={
-                'verbose_name_plural': 'Статусы проектов',
                 'verbose_name': 'Статус проектов',
+                'verbose_name_plural': 'Статусы проектов',
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='StoryPiece',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+')),
+                ('author', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
                 ('obj', models.ForeignKey(to='claims.Object')),
             ],
             options={
@@ -284,11 +289,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StoryPieceHistory',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+')),
+                ('author', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
                 ('story_piece', models.ForeignKey(to='claims.StoryPiece')),
             ],
             options={
@@ -299,11 +304,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Subscription',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('guid', django_extensions.db.fields.UUIDField(blank=True, name='guid', db_index=True, editable=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('guid', django_extensions.db.fields.UUIDField(blank=True, db_index=True, name='guid', editable=False)),
                 ('cr_date', models.DateTimeField(auto_now_add=True)),
                 ('up_date', models.DateTimeField(auto_now=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+')),
+                ('author', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -315,6 +320,12 @@ class Migration(migrations.Migration):
             model_name='projectfield',
             name='project_field_group',
             field=models.ForeignKey(blank=True, null=True, to='claims.ProjectFieldGroup'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='project',
+            name='status',
+            field=models.ForeignKey(verbose_name='Статус проекта', to='claims.ProjectStatus'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -338,7 +349,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='authentication',
             name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='+'),
+            field=models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -350,7 +361,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='city',
-            field=models.ForeignKey(to='claims.AddressCity', null=True),
+            field=models.ForeignKey(null=True, to='claims.AddressCity'),
             preserve_default=True,
         ),
     ]
