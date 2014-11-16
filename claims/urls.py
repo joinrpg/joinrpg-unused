@@ -8,4 +8,5 @@ urlpatterns = patterns('',
       
     #project area
     url(r'^project/discover/?$', views.project_discover, name='project_discover'),
+    url(r'^project/([0-9]+)/?$', views.project_start, name='project_start'),
 )

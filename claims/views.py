@@ -9,3 +9,6 @@ def about(request):
 
 def project_discover(request):
     return render(request, 'projects/discover.html')
+
+def project_start(request, project_id):
+    return render(request, 'projects/start.html', {'project': {'name':'Ведьмак:Большая Игра'}})
