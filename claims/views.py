@@ -6,3 +6,6 @@ def index(request):
 
 def about(request):
     return render(request, 'about.html')
+
+def project_discover(request):
+    return render(request, 'projects/discover.html')

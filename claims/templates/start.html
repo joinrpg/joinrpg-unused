@@ -5,9 +5,19 @@
 {% block pagetitle %} Joinrpg: Старт {% endblock %}
 {% block content %} 
 <h1> Index page</h1>
-Lorem ipsum — dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.[1] Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-
-Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus. 
+<section>
+    <h2>Мои заявки на игры</h2>
+    <ul>
+        <li>Заявка на игру 1</li>
+        <li>Заявка на игру 2</li>
+        <li><a href="{% url 'project_discover' %}">Выбрать игру и заявиться на нее</a></li>
+    </ul>
+</section>
+<section>
+    <h2>Игры, которые я мастерю</h2>
+    <ul>
+        <li>Игра 1</li>
+        <li>Игра 2</li>
+    </ul>
+</section>
 {% endblock %}
