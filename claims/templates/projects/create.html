@@ -1,0 +1,14 @@
+{% extends "common/base.html" %}
+
+{% block pagetitle %} Joinrpg: Старт {% endblock %}
+{% block content %} 
+<h1>Создание новой игры</h1>
+<section>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <input type="submit" value="Создать новую игру">
+    </form>
+</section>
+{% endblock %}

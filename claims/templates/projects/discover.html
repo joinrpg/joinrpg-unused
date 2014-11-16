@@ -1,14 +1,15 @@
 {% extends "common/base.html" %}
 
-{% load bootstrap3 %}
-
 {% block pagetitle %} Joinrpg: Заявиться на игру {% endblock %}
 {% block content %} 
 <h1>Открыты заявки на игры</h1>
 <section>
     <ul>
-        <li><a href="{% url 'project_start' 1 %}">Игра 1</a></li>
-        <li><a href="{% url 'project_start' 2 %}">Игра 2</a></li>
+        {% for project in project_list %}
+            <li><a href="{% url 'project_start' project.id %}">{{project.name}}</a></li>
+        {% empty %}
+            <li>К сожалению, никаких игр нет</li>
+        {% endfor %}
     </ul>
 </section>
 {% endblock %}

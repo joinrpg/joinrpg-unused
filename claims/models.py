@@ -174,7 +174,22 @@ class ProjectAcl(JRModel):
     can_write_comments = models.BooleanField(default=True)
     can_accept_money = models.BooleanField(default=True)
     can_setup_fields = models.BooleanField(default=False)
-    can_grant_acl = models.BooleanField(default=True)
+    can_grant_acl = models.BooleanField(default=False)
+    can_change_project_properties = models.BooleanField(default=False)
+    
+    @staticmethod
+    def create_author_fullcontrol(project):
+        self = ProjectAcl()
+        self.project = project
+        self.user = project.author
+        self.can_change_player_fields = True
+        self.can_write_comments = True
+        self.can_accept_money = True
+        self.can_setup_fields = True
+        self.can_grant_acl = True
+        self.can_change_project_properties = True
+        return self
+        
 
 # Группы полей заявок в проекте
 class ProjectFieldGroup(JRModel):
