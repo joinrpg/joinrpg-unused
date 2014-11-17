@@ -38,3 +38,9 @@ JoinRPG.ru Python/Django sources
 * http://beta.joinrpg.ru/admin/
 
 На сервере не исполняется автоматически `migrate` (т.е. не обновляется структура БД, если она были изменена) и не доставляются пререквизиты (`pip install`). Об этом баг #31
+
+# Откуда брать задачи для работы
+
+Текущий milestone/итерация называется 0.1 Все задачи по этой итерации лежат здесь https://github.com/joinrpg/joinrpg/milestones/V0.1
+
+Задачи, которые не назначены ни на кого — здесь https://github.com/joinrpg/joinrpg/issues?q=is%3Aopen+milestone%3AV0.1+no%3Aassignee
