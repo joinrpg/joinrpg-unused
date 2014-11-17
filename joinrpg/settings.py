@@ -100,3 +100,5 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     os.path.join (BASE_DIR, 'claims/templates/').replace('\\', '/'),
 )
+
+STATIC_ROOT=os.path.join(BASE_DIR, "static")
