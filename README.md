@@ -12,6 +12,7 @@ JoinRPG.ru Python/Django sources
 * Установить Python 3
   * Для Windows https://www.python.org/downloads/
   * При установке python выбрать «добавить python в path»
+  * Если на компьютере уже установлена версия Python 2.x и её необходимо сохранить, то воспользуйтесь каким-нибудь методом, описанным здесь: http://stackoverflow.com/questions/3809314/how-to-install-both-python-2-x-and-python-3-x-in-windows-7
 * Установить Git. 
   * Если вы не умеете в Git и хотите быстрый вариант для Windows, вот он https://windows.github.com/
 * Склонировать репозиторий в какой-нибудь каталог
