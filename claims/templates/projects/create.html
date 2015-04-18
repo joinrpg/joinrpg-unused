@@ -6,7 +6,7 @@
 <section>
     <form action="" method="post">
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <br>
         <input type="submit" value="Создать новую игру">
     </form>
