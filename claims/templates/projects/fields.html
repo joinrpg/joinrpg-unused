@@ -1,0 +1,31 @@
+{% extends "common/base.html" %}
+
+{% load bootstrap3 %}
+
+{% block pagetitle %} Joinrpg: Старт {% endblock %}
+{% block content %} 
+<h1>Игра «<a href="{% url 'project_start' project.id %}">{{project.name}}</a>»</h1>
+<section>
+        <ul>
+        {% for fieldGroup in project.projectfieldgroup_set.all %}
+            <li><h3>{{fieldGroup.name}}</h3>
+            <section>
+                <ul>
+                 {% for field in fieldGroup.projectfield_set.all %}
+                    <li>{{field.name}}</li>
+                 {% endfor %}
+                 <li>Добавить поле
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ create_field_form.as_p }}
+                        <input type="submit" value="Добавить поле">
+                    </form>
+                 </li>
+            </section>
+            </li>
+        {% empty %}
+            <li>Группы полей отсутствуют</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

@@ -19,18 +19,32 @@ class CreateProjectForm(ModelForm):
         model = models.Project
         fields = ['name', 'external_uri', 'description', 'game_begin_date', 'game_end_date']
 
+class CreateProjectFieldForm(ModelForm):
+    class Meta:
+        model = models.ProjectField
+        fields = ['name', 'type']
+
 @transaction.atomic        
 def save_project_to_db(instance):
     instance.author = models.User.objects.first() # TODO[Dair] Как сохранять здесь правильного пользователя?
     instance.status = models.ProjectStatus.objects.filter(is_default_status=True).first()
     instance.save() #Сохраняем
+    
     root_acl = models.ProjectAcl.create_author_fullcontrol(instance)
     root_acl.save() #grant author fullcontrol rights
+    
     root_object = models.Object()
     root_object.project = instance
     root_object.name = 'Вся игра'
     root_object.author = instance.author
     root_object.save()
+    
+    defaultFieldGroup = models.ProjectFieldGroup()
+    defaultFieldGroup.project = instance
+    defaultFieldGroup.name = 'Персонаж'
+    defaultFieldGroup.order = 1
+    defaultFieldGroup.save()
+    
     return instance.id
     
 def project_create(request):
@@ -45,3 +59,7 @@ def project_create(request):
 
 def project_start(request, project_id):
     return render(request, 'projects/start.html', {'project': models.Project.objects.get(id=project_id)}) 
+
+def project_edit_fields(request, project_id):
+    create_field_form = CreateProjectFieldForm(request.POST)
+    return render(request, 'projects/fields.html', {'project': models.Project.objects.get(id=project_id), 'create_field_form': create_field_form}) 

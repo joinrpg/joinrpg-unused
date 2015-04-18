@@ -194,12 +194,34 @@ class ProjectAcl(JRModel):
 # Группы полей заявок в проекте
 class ProjectFieldGroup(JRModel):
     project = models.ForeignKey(Project)
+    name = models.CharField('Название группы полей', max_length=255)
+    order = OrderField('Порядок')
+    description = models.TextField('Описание группы полей', max_length=1023)
 
+class ProjectFieldTypeImpl:
+    def __init__ (self, id, name):
+        self.id = id
+        self.name = name
+    
+    def as_choice(self):
+        return (self.id, self.name)
+            
 # Поля заявки в проекте
 class ProjectField(JRModel):
+    TYPE_TEXT = ProjectFieldTypeImpl(1, 'Текстовое поле')
+    
+    ALL_TYPES = [TYPE_TEXT]
+    
     project = models.ForeignKey(Project)
-    project_field_group = models.ForeignKey(ProjectFieldGroup, blank=True, null=True)
-
+    project_field_group = models.ForeignKey(ProjectFieldGroup)
+    
+    name = models.CharField('Имя поля', max_length=255)
+    order = OrderField('Порядок')
+    type = models.PositiveSmallIntegerField('Тип поля', choices = map (lambda x: x.as_choice(), ALL_TYPES))
+    
+    def get_type(self):
+        return next(x for x in ALL_TYPES if x.id == self.type)
+    
 # Значения комбобоксов в полях заявок в проекте
 class ProjectFieldValue(JRModel):
     project_field = models.ForeignKey(ProjectField)
