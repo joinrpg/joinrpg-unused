@@ -28,3 +28,6 @@ class SkypeField(models.TextField):
 
 class KogdaIgraField(models.URLField):
     pass
+
+class OrderField(models.PositiveIntegerField):
+    pass
